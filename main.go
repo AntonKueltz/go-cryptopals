@@ -1,7 +1,7 @@
 package main
 
 import "fmt"
-import "github.com/AntonKueltz/cryptopals/set1"
+import "github.com/AntonKueltz/go-cryptopals/set1"
 
 func main() {
     fmt.Println("[Set 1] Challenge 1")
