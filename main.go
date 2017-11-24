@@ -40,5 +40,8 @@ func main() {
     if *numbPtr == 0 || *numbPtr == 2 {
         fmt.Println("[Set 2] Challenge 9")
         set2.Challenge9Main()
+
+        fmt.Println("\n[Set 2] Challenge 10")
+        set2.Challenge10Main()
     }
 }
