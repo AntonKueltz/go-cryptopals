@@ -9,24 +9,38 @@ import "io/ioutil"
 import "log"
 import "path/filepath"
 
-// EncryptAesEcb Encrypt a ciphertext in AES-ECB (not supported by go)
-func EncryptAesEcb(key, plaintext []byte) ([]byte, error) {
-    ciphertext := make([]byte, len(plaintext))
+func padPkcs7(bytes []byte, blocksize int) []byte {
+    byteLen := len(bytes)
+    paddingBytes := blocksize - (byteLen % blocksize)
+    if paddingBytes == 0 {
+        paddingBytes = blocksize
+    }
 
+    paddedBytes := make([]byte, byteLen + paddingBytes)
+    copy(paddedBytes[:byteLen], bytes[:])
+
+    for i := byteLen; i < byteLen + paddingBytes; i++ {
+        paddedBytes[i] = byte(paddingBytes)
+    }
+
+    return paddedBytes
+}
+
+// EncryptAesEcb Encrypt a ciphertext in AES-ECB (not supported by go)
+func EncryptAesEcb(key, plaintext []byte) []byte {
     block, err := aes.NewCipher(key)
     if err != nil { log.Fatal(err) }
 
     blocksize := block.BlockSize()
-    if len(ciphertext) % blocksize != 0 {
-        return ciphertext, errors.New("Ciphertext not multiple of block size")
-    }
+    plaintext = padPkcs7(plaintext, blocksize)
+    ciphertext := make([]byte, len(plaintext))
 
     for i := 0; i < len(plaintext) / blocksize; i++ {
         start, end := i * blocksize, (i + 1) * blocksize
         block.Encrypt(ciphertext[start:end], plaintext[start:end])
     }
 
-    return plaintext, nil
+    return plaintext
 }
 
 // DecryptAesEcb Decrypt a ciphertext in AES-ECB (not supported by go)

@@ -39,7 +39,7 @@ func Challenge11Main() {
         ciphertext = EncryptAesCbc(key, plaintext, iv)
     } else {
         fmt.Println("Encrypting in ECB mode...")
-        ciphertext, _ = set1.EncryptAesEcb(key, plaintext)
+        ciphertext = set1.EncryptAesEcb(key, plaintext)
     }
 
     ecbMode := set1.DetectEcbMode(ciphertext)
