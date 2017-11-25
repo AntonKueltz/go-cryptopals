@@ -12,6 +12,27 @@ import "strings"
 
 import "github.com/AntonKueltz/go-cryptopals/set1"
 
+// EncryptAesCbc Encrypt a plaintext in AES-CBC
+func EncryptAesCbc(key, plaintext, iv []byte) []byte {
+    block, err := aes.NewCipher(key)
+    if err != nil { log.Fatal(err) }
+
+    blocksize := block.BlockSize()
+    plaintext = PadPkcs7(plaintext, blocksize)
+    ciphertext := make([]byte, len(plaintext))
+
+    for i := 0; i < len(plaintext) / blocksize; i++ {
+        start, end := i * blocksize, (i + 1) * blocksize
+
+        intermediate, _ := set1.Xor(plaintext[start:end], iv)
+        block.Encrypt(ciphertext[start:end], intermediate)
+
+        copy(iv, ciphertext[start:end])
+    }
+
+    return ciphertext
+}
+
 // DecryptAesCbc Decrypt a ciphertext in AES-CBC
 func DecryptAesCbc(key, ciphertext, iv []byte) ([]byte, error) {
     plaintext := make([]byte, len(ciphertext))

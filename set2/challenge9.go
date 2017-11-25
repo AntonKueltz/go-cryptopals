@@ -24,5 +24,6 @@ func PadPkcs7(bytes []byte, blocksize int) []byte {
 func Challenge9Main() {
     stringToPad := []byte("YELLOW SUBMARINE")
     padded := PadPkcs7(stringToPad, 20)
+    fmt.Printf("%s\n", padded)
     fmt.Println(padded)
 }

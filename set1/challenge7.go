@@ -9,6 +9,26 @@ import "io/ioutil"
 import "log"
 import "path/filepath"
 
+// EncryptAesEcb Encrypt a ciphertext in AES-ECB (not supported by go)
+func EncryptAesEcb(key, plaintext []byte) ([]byte, error) {
+    ciphertext := make([]byte, len(plaintext))
+
+    block, err := aes.NewCipher(key)
+    if err != nil { log.Fatal(err) }
+
+    blocksize := block.BlockSize()
+    if len(ciphertext) % blocksize != 0 {
+        return ciphertext, errors.New("Ciphertext not multiple of block size")
+    }
+
+    for i := 0; i < len(plaintext) / blocksize; i++ {
+        start, end := i * blocksize, (i + 1) * blocksize
+        block.Encrypt(ciphertext[start:end], plaintext[start:end])
+    }
+
+    return plaintext, nil
+}
+
 // DecryptAesEcb Decrypt a ciphertext in AES-ECB (not supported by go)
 func DecryptAesEcb(key, ciphertext []byte) ([]byte, error) {
     plaintext := make([]byte, len(ciphertext))
