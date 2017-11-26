@@ -40,7 +40,7 @@ func EncryptAesEcb(key, plaintext []byte) []byte {
         block.Encrypt(ciphertext[start:end], plaintext[start:end])
     }
 
-    return plaintext
+    return ciphertext
 }
 
 // DecryptAesEcb Decrypt a ciphertext in AES-ECB (not supported by go)
