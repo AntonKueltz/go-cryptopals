@@ -49,5 +49,8 @@ func main() {
 
         fmt.Println("\n[Set 2] Challenge 12")
         set2.Challenge12Main()
+
+        fmt.Println("\n[Set 2] Challenge 13")
+        set2.Challenge13Main()
     }
 }

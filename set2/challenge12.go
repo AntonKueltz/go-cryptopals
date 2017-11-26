@@ -7,7 +7,7 @@ import "strings"
 import "github.com/AntonKueltz/go-cryptopals/set1"
 // EncryptAesEcb, DetectEcbMode
 
-var key = []byte("COUNTERATTACKERS")  // or something else random...
+var c12Key = []byte("COUNTERATTACKERS")  // or something else random...
 var b64 = "Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkg" +
           "aGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBq" +
           "dXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUg" +
@@ -19,7 +19,7 @@ func encrypt(prefix []byte) []byte {
     copy(plaintext[:len(prefix)], prefix)
     copy(plaintext[len(prefix):], target)
 
-    ciphertext := set1.EncryptAesEcb(key, plaintext)
+    ciphertext := set1.EncryptAesEcb(c12Key, plaintext)
     return ciphertext
 }
 
